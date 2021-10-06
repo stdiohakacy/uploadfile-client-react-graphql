@@ -8,9 +8,9 @@ import { ApolloLink } from "apollo-link";
 import { onError } from "apollo-link-error";
 
 export const UPLOAD_FILE = gql`
-  mutation uploadFile($file: Upload!) {
-    uploadFile(file: $file) {
-      filename
+  mutation uploadReportReviewFile($file: Upload!, $orderItemId: String!, $reportReviewId: String!) {
+    uploadReportReviewFile(file: $file, orderItemId: $orderItemId, reportReviewId: $reportReviewId) {
+      success
     }
   }
 `;
@@ -36,7 +36,7 @@ function App() {
     <div className="App">
       <ApolloProvider client={client}>
         <Mutation mutation={UPLOAD_FILE}>
-          {(uploadFile) => (
+          {(uploadReportReviewFile) => (
             <input
               type="file"
               required
@@ -45,7 +45,9 @@ function App() {
                   validity,
                   files: [file],
                 },
-              }) => validity.valid && uploadFile({ variables: { file } })}
+              }) => validity.valid && uploadReportReviewFile({ variables: { file, 
+                orderItemId: "5f54e64d-65d7-4877-bfce-1e2f822b993a", 
+                reportReviewId: "e590673d-d697-4729-8abc-44680c43b6b3" } })}
             />
           )}
         </Mutation>
